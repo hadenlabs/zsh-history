@@ -7,7 +7,7 @@
 # Authors:
 #   Luis Mayta <slovacus@gmail.com>
 #
-# Search shell history with fzf when pressing ctrl+r.
+# Search shell history with fzf when pressing ctrl+h or ctrl+r.
 # https://github.com/luismayta/zsh-history
 #
 # Requirements:
@@ -30,8 +30,9 @@ die(){
 
 function history::list {
     local buffer
-    buffer=$(fc -l -n 1 | eval "gtac | perl -ne 'print unless \$seen{\$_}++'")
-    echo "${buffer}"
+    buffer=$(fc -l -n 1 \
+                 | eval "gtac | perl -ne 'print unless \$seen{\$_}++'")
+    echo -e "${buffer}"
 }
 
 function history::install {
@@ -44,14 +45,20 @@ function history::install {
 
 function history::find {
     if [[ -x "$(command which fzf)" ]]; then
-        local buffer
-        buffer=$(history::list | \
-                     fzf)
+        # shellcheck disable=SC2034
+        BUFFER=$(history::list \
+                     | fzf             \
+                     | perl -pe 'chomp' \
+                 )
+        # shellcheck disable=SC2034
+        CURSOR=$#BUFFER # move cursor
+        zle -R -c       # refresh
     fi
 }
 
 zle -N history::find
 bindkey '^H' history::find
+bindkey '^R' history::find
 
 if [ ! -x "$(command which fzf)" ]; then
     history::install
