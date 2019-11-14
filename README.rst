@@ -1,7 +1,7 @@
 zsh-history
 ===========
 
-|Fossa Status| |Build Status| |GitHub issues| |GitHub license|
+|Build Status| |GitHub issues| |GitHub license|
 
 :Version: 0.0.0
 :Web: https://github.com/luismayta/zsh-history
@@ -154,8 +154,6 @@ Made with :coffee: and :pizza: by `luis mayta`_ and `hadenlabs`_.
 .. _`Website`: http://luismayta.github.io
 .. _`PGP`: https://keybase.io/luismayta/pgp_keys.asc
 
-.. |Fossa Status| image:: https://app.fossa.io/api/projects/git%2Bgithub.com%2Fluismayta%2Fzsh-history.svg?type=large
-   :target: https://app.fossa.io/projects/git%2Bgithub.com%2Fluismayta%2Fzsh-history?ref=badge_large
 .. |Build Status| image:: https://travis-ci.org/luismayta/zsh-history.svg
    :target: https://travis-ci.org/luismayta/zsh-history
 .. |GitHub issues| image:: https://img.shields.io/github/issues/luismayta/zsh-history.svg
