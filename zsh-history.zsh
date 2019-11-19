@@ -30,8 +30,18 @@ die(){
 
 function history::list {
     local buffer
+    local parse_cmd
+
+    if [ -x "$(command which gtac)" ]; then
+      parse_cmd="gtac"
+    elif [ -x "$(command which tac)" ]; then
+      parse_cmd="tac"
+    else
+      parse_cmd="tail -r"
+    fi
+
     buffer=$(fc -l -n 1 \
-                 | eval "gtac | perl -ne 'print unless \$seen{\$_}++'")
+                 | eval "$parse_cmd | perl -ne 'print unless \$seen{\$_}++'")
     echo -e "${buffer}"
 }
 
