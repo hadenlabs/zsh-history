@@ -47,15 +47,17 @@ function history::list {
 
 function history::install {
     message_info "Installing ${package_name}"
-    brew install ${package_name}
-    if [[ ! -x "$(command which perl)" ]]; then
-        brew install perl
+    if [ -x "$(command which brew)" ]; then
+        brew install ${package_name}
+        if [ ! -x "$(command which perl)" ]; then
+            brew install perl
+        fi
     fi
     message_success "Installed ${package_name}"
 }
 
 function history::find {
-    if [[ -x "$(command which fzf)" ]]; then
+    if [ -x "$(command which fzf)" ]; then
         # shellcheck disable=SC2034
         BUFFER=$(history::list \
                      | fzf             \
