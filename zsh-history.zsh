@@ -13,7 +13,7 @@
 # Requirements:
 #  - fzf: https://github.com/junegunn/fzf
 #  - zsh: https://www.zsh.org/
-#  - gtac, or tail with support for -r option
+#  - gtac, tac or tail with support for -r option
 #  - perl, or uniq if de-duplication is turned on
 #
 
@@ -22,7 +22,7 @@ plugin_dir=$(dirname "${0}":A)
 # shellcheck source=/dev/null
 source "${plugin_dir}"/src/helpers/messages.zsh
 
-PACKAGE_NAME='fzf'
+package_name='fzf'
 
 die(){
     message_error "$1";
@@ -36,11 +36,12 @@ function history::list {
 }
 
 function history::install {
-    message_info "Installing ${PACKAGE_NAME}"
-    brew install ${PACKAGE_NAME}
+    message_info "Installing ${package_name}"
+    brew install ${package_name}
     if [[ ! -x "$(command which perl)" ]]; then
         brew install perl
     fi
+    message_success "Installed ${package_name}"
 }
 
 function history::find {
@@ -60,6 +61,6 @@ zle -N history::find
 bindkey '^H' history::find
 bindkey '^R' history::find
 
-if [ ! -x "$(command which fzf)" ]; then
+if [ ! -x "$(command which ${package_name})" ]; then
     history::install
 fi
