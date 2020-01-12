@@ -27,9 +27,9 @@ function history::list {
     local buffer
     local parse_cmd
 
-    if [ -x "$(command which gtac)" ]; then
+    if type -p gtac > /dev/null; then
         parse_cmd="gtac"
-    elif [ -x "$(command which tac)" ]; then
+    elif type -p tac > /dev/null; then
         parse_cmd="tac"
     else
         parse_cmd="tail -r"
@@ -42,9 +42,9 @@ function history::list {
 
 function history::install {
     message_info "Installing ${history_package_name}"
-    if [ -x "$(command which brew)" ]; then
+    if type -p brew > /dev/null; then
         brew install ${history_package_name}
-        if [ ! -x "$(command which perl)" ]; then
+        if ! type -p perl > /dev/null; then
             brew install perl
         fi
     fi
@@ -52,7 +52,7 @@ function history::install {
 }
 
 function history::find {
-    if [ -x "$(command which fzf)" ]; then
+    if type -p "${history_package_name}" > /dev/null; then
         # shellcheck disable=SC2034
         BUFFER=$(history::list \
             | fzf             \
@@ -68,6 +68,6 @@ zle -N history::find
 bindkey '^H' history::find
 bindkey '^R' history::find
 
-if [ ! -x "$(command which ${history_package_name})" ]; then
+if ! type -p "${history_package_name}" > /dev/null; then
     history::install
 fi
