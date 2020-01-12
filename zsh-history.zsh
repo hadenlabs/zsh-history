@@ -17,15 +17,10 @@
 #  - perl, or uniq if de-duplication is turned on
 #
 
-plugin_dir=$(dirname "${0}":A)
-
-# shellcheck source=/dev/null
-source "${plugin_dir}"/src/helpers/messages.zsh
-
-package_name='fzf'
+history_package_name='fzf'
 
 die(){
-    message_error "$1";
+    message_error "${1}";
 }
 
 function history::list {
@@ -33,36 +28,36 @@ function history::list {
     local parse_cmd
 
     if [ -x "$(command which gtac)" ]; then
-      parse_cmd="gtac"
+        parse_cmd="gtac"
     elif [ -x "$(command which tac)" ]; then
-      parse_cmd="tac"
+        parse_cmd="tac"
     else
-      parse_cmd="tail -r"
+        parse_cmd="tail -r"
     fi
 
     buffer=$(fc -l -n 1 \
-                 | eval "$parse_cmd | perl -ne 'print unless \$seen{\$_}++'")
+            | eval "$parse_cmd | perl -ne 'print unless \$seen{\$_}++'")
     echo -e "${buffer}"
 }
 
 function history::install {
-    message_info "Installing ${package_name}"
+    message_info "Installing ${history_package_name}"
     if [ -x "$(command which brew)" ]; then
-        brew install ${package_name}
+        brew install ${history_package_name}
         if [ ! -x "$(command which perl)" ]; then
             brew install perl
         fi
     fi
-    message_success "Installed ${package_name}"
+    message_success "Installed ${history_package_name}"
 }
 
 function history::find {
     if [ -x "$(command which fzf)" ]; then
         # shellcheck disable=SC2034
         BUFFER=$(history::list \
-                     | fzf             \
-                     | perl -pe 'chomp' \
-                 )
+            | fzf             \
+            | perl -pe 'chomp' \
+        )
         # shellcheck disable=SC2034
         CURSOR=$#BUFFER # move cursor
         zle -R -c       # refresh
@@ -73,6 +68,6 @@ zle -N history::find
 bindkey '^H' history::find
 bindkey '^R' history::find
 
-if [ ! -x "$(command which ${package_name})" ]; then
+if [ ! -x "$(command which ${history_package_name})" ]; then
     history::install
 fi
