@@ -17,11 +17,35 @@
 #  - perl, or uniq if de-duplication is turned on
 #
 
-history_package_name='fzf'
+export HISTORY_PACKAGE_NAME='history'
 
-die(){
-    message_error "${1}";
+HISTORY_ROOT_PATH="$(dirname "${0}")"
+HISTORY_SOURCE_PATH="${HISTORY_ROOT_PATH}"/src
+
+export HISTORY_MESSAGE_BREW="Please install brew or use antibody bundle luismayta/zsh-brew branch:develop"
+export HISTORY_MESSAGE_YAY="Please install Go or use antibody bundle luismayta/zsh-goenv branch:develop"
+
+# shellcheck source=/dev/null
+source "${HISTORY_SOURCE_PATH}"/base.zsh
+
+# history::cross::os functions for osx and linux
+function history::cross::os {
+
+    case "${OSTYPE}" in
+        linux*)
+            # shellcheck source=/dev/null
+            source "${HISTORY_SOURCE_PATH}"/linux.zsh
+            ;;
+        darwin*)
+            # shellcheck source=/dev/null
+            source "${HISTORY_SOURCE_PATH}"/osx.zsh
+            ;;
+    esac
+
 }
+
+history::cross::os
+
 
 function history::list {
     local buffer
@@ -36,38 +60,20 @@ function history::list {
     fi
 
     buffer=$(fc -l -n 1 \
-            | eval "$parse_cmd | perl -ne 'print unless \$seen{\$_}++'")
+                 | eval "$parse_cmd | perl -ne 'print unless \$seen{\$_}++'")
     echo -e "${buffer}"
 }
 
-function history::install {
-    message_info "Installing ${history_package_name}"
-    if type -p brew > /dev/null; then
-        brew install ${history_package_name}
-        if ! type -p perl > /dev/null; then
-            brew install perl
-        fi
-    fi
-    message_success "Installed ${history_package_name}"
-}
-
 function history::find {
-    if type -p "${history_package_name}" > /dev/null; then
-        # shellcheck disable=SC2034
-        BUFFER=$(history::list \
-            | fzf             \
-            | perl -pe 'chomp' \
-        )
-        # shellcheck disable=SC2034
-        CURSOR=$#BUFFER # move cursor
-        zle -R -c       # refresh
-    fi
+    # shellcheck disable=SC2034
+    BUFFER=$(history::list \
+                 | fzf             \
+                 | perl -pe 'chomp' \
+          )
+    # shellcheck disable=SC2034
+    CURSOR=${#BUFFER}
+    zle clear-screen
 }
 
 zle -N history::find
-bindkey '^H' history::find
 bindkey '^R' history::find
-
-if ! type -p "${history_package_name}" > /dev/null; then
-    history::install
-fi
