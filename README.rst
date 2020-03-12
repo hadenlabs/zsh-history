@@ -3,6 +3,8 @@ zsh-history
 
 |Build Status| |GitHub issues| |GitHub license|
 
+zsh history
+
 :Version: 0.0.0
 :Web: https://github.com/luismayta/zsh-history
 :Download: https://github.com/luismayta/zsh-history
@@ -140,15 +142,15 @@ Feel free to contact me to discuss any issues, questions, or comments.
 
 |linkedin| |beacon| |made|
 
-Made with :coffee: and :pizza: by `luis mayta`_ and `equipindustry`_.
+Made with :coffee: and :pizza: by `Luis Mayta`_ and `equipindustry`_.
 
 .. Links
 .. _`changelog`: CHANGELOG.rst
-.. _`contributors`: AUTHORS
+.. _`contributors`: docs/source/AUTHORS.rst
 .. _`contributing`: docs/source/CONTRIBUTING.rst
 
 .. _`equipindustry`: https://github.com/equipindustry
-.. _`luis mayta`: https://github.com/luismayta
+.. _`Luis Mayta`: https://github.com/luismayta
 
 
 .. _`Github`: https://github.com/luismayta
@@ -156,7 +158,7 @@ Made with :coffee: and :pizza: by `luis mayta`_ and `equipindustry`_.
 .. _`Email`: slovacus@gmail.com
     :target: mailto:slovacus@gmail.com
 .. _`Twitter`: https://twitter.com/slovacus
-.. _`Website`: http://luismayta.github.io
+.. _`Website`: https://luismayta.github.io
 .. _`PGP`: https://keybase.io/luismayta/pgp_keys.asc
 
 .. |Build Status| image:: https://travis-ci.org/luismayta/zsh-history.svg
@@ -168,7 +170,7 @@ Made with :coffee: and :pizza: by `luis mayta`_ and `equipindustry`_.
 
 .. Team:
 .. |Luis Mayta| image:: https://github.com/luismayta.png?size=100
-    :target: https://github.com/luismayta
+   :target: https://github.com/luismayta
 
 .. Footer:
 .. |linkedin| image:: http://www.linkedin.com/img/webpromo/btn_liprofile_blue_80x15.png
