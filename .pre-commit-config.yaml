@@ -4,7 +4,7 @@ default_language_version:
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit
-    rev: v1.20.0
+    rev: v2.1.1
     hooks:
       - id: validate_manifest
   - repo: https://github.com/detailyang/pre-commit-shell
@@ -25,7 +25,7 @@ repos:
         args: []
         files: .py$
   - repo: https://github.com/Lucas-C/pre-commit-hooks-nodejs
-    rev: v1.1.0
+    rev: v1.1.1
     hooks:
       - id: markdown-toc
   - repo: https://github.com/Lucas-C/pre-commit-hooks-markup
@@ -33,10 +33,6 @@ repos:
     hooks:
       - id: rst-linter
         exclude: (docs/*|tests/*)
-  - repo: https://github.com/pricematch/pricematch-pre-commit-hooks
-    rev: 93f5296d960021ee1f507a59a0bca1fe8f73c285
-    hooks:
-      - id: do_not_commit
   - repo: https://github.com/pre-commit/mirrors-pylint
     rev: v2.4.4
     hooks:
@@ -55,13 +51,13 @@ repos:
     hooks:
       - id: flake8
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v0.740
+    rev: v0.761
     hooks:
       - id: mypy
         args:
           - --ignore-missing-imports
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v2.4.0
+    rev: v2.5.0
     hooks:
       - id: detect-private-key
         files: ^(?!\.?git-crypt)
@@ -76,7 +72,6 @@ repos:
       - id: check-json
       - id: check-xml
       - id: check-yaml
-      - id: check-case-conflict
       - id: check-byte-order-marker
       - id: check-ast
       - id: debug-statements
@@ -93,13 +88,13 @@ repos:
         fix: lr
       - id: check-executables-have-shebangs
   - repo: https://github.com/asottile/blacken-docs
-    rev: v1.3.0
+    rev: v1.6.0
     hooks:
       - id: blacken-docs
         additional_dependencies:
           - black
   - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.21.0
+    rev: v1.27.0
     hooks:
       - id: terraform_fmt
       - id: terraform_docs
@@ -107,3 +102,4 @@ repos:
     rev: 1.19.1 # Use the sha or tag you want to point at
     hooks:
       - id: prettier
+        exclude: lib|node_modules
