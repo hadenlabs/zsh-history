@@ -23,7 +23,7 @@ PROJECT := zsh-history
 PROJECT_PORT := 8000
 
 PYTHON_VERSION=3.8.0
-NODE_VERSION=v12.14.1
+NODE_VERSION=12.14.1
 PYENV_NAME="${PROJECT}"
 
 # Configuration.
@@ -34,13 +34,6 @@ MESSAGE_HAPPY:="Done! ${MESSAGE}, Now Happy Hacking"
 SOURCE_DIR=$(ROOT_DIR)/
 PROVISION_DIR:=$(ROOT_DIR)/provision
 FILE_README:=$(ROOT_DIR)/README.rst
-KEYBASE_VOLUME_PATH ?= /Keybase
-KEYBASE_PATH ?= ${KEYBASE_VOLUME_PATH}/team/${TEAM}
-KEYS_PEM_DIR:=${KEYBASE_PATH}/pem
-KEYS_KEY_DIR:=${KEYBASE_PATH}/key
-KEYS_PUB_DIR:=${KEYBASE_PATH}/pub
-KEYS_PRIVATE_DIR:=${KEYBASE_PATH}/private/key_file/${PROJECT}
-PASSWORD_DIR:=${KEYBASE_PATH}/password
 
 PATH_DOCKER_COMPOSE:=docker-compose.yml -f provision/docker-compose
 
@@ -66,24 +59,38 @@ help:
 	@echo '    environment               create environment with pyenv'
 	@echo '    setup                     install requirements'
 	@echo ''
-	@make docker.help
 	@make docs.help
 	@make test.help
-
+	@make utils.help
+	@make python.help
+	@make yarn.help
 
 setup:
 	@echo "=====> install packages..."
-	pyenv local ${PYTHON_VERSION}
-	yarn
-	$(PIPENV_INSTALL) --dev --skip-lock
-	$(PIPENV_RUN) pre-commit install
-	$(PIPENV_RUN) pre-commit install -t pre-push
+	make python.setup
+	make yarn.setup
 	@cp -rf provision/git/hooks/prepare-commit-msg .git/hooks/
 	@[ -e ".env" ] || cp -rf .env.example .env
 	@echo ${MESSAGE_HAPPY}
 
 environment:
 	@echo "=====> loading virtualenv ${PYENV_NAME}..."
-	pyenv local ${PYTHON_VERSION}
-	@pipenv --venv || $(PIPENV_INSTALL) --python=${PYTHON_VERSION} --skip-lock
+	make python.environment
 	@echo ${MESSAGE_HAPPY}
+
+.PHONY: clean
+clean:
+	@rm -f ./dist.zip
+	@rm -fr ./vendor
+
+# Show to-do items per file.
+todo:
+	@grep \
+		--exclude-dir=vendor \
+		--exclude-dir=node_modules \
+		--exclude-dir=bin \
+		--exclude=Makefile \
+		--text \
+		--color \
+		-nRo -E ' TODO:.*|SkipNow|FIXMEE:.*' .
+.PHONY: todo
