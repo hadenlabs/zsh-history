@@ -20,13 +20,13 @@
 export HISTORY_PACKAGE_NAME='history'
 
 HISTORY_ROOT_PATH="$(dirname "${0}")"
-HISTORY_SOURCE_PATH="${HISTORY_ROOT_PATH}"/src
+HISTORY_SOURCE_PATH="${HISTORY_ROOT_PATH}"
 
 export HISTORY_MESSAGE_BREW="Please install brew or use antibody bundle luismayta/zsh-brew branch:develop"
 export HISTORY_MESSAGE_YAY="Please install Go or use antibody bundle luismayta/zsh-goenv branch:develop"
 
 # shellcheck source=/dev/null
-source "${HISTORY_SOURCE_PATH}"/base.zsh
+source "${HISTORY_SOURCE_PATH}"/core/base.zsh
 
 # history::cross::os functions for osx and linux
 function history::cross::os {
@@ -34,11 +34,11 @@ function history::cross::os {
     case "${OSTYPE}" in
         linux*)
             # shellcheck source=/dev/null
-            source "${HISTORY_SOURCE_PATH}"/linux.zsh
+            source "${HISTORY_SOURCE_PATH}"/core/linux.zsh
             ;;
         darwin*)
             # shellcheck source=/dev/null
-            source "${HISTORY_SOURCE_PATH}"/osx.zsh
+            source "${HISTORY_SOURCE_PATH}"/core/osx.zsh
             ;;
     esac
 
@@ -76,4 +76,4 @@ function history::find {
 }
 
 zle -N history::find
-bindkey '^R' history::find
+bindkey '^Xr' history::find
