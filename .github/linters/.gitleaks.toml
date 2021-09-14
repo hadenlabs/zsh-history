@@ -236,9 +236,14 @@ title = "gitleaks config"
     '''^\.gitignore$''',
     '''^\.gitleaks.toml$''',
     '''^yarn.lock$''',
+    '''^sonar-project.properties$''',
+    '''^\.gitignore$''',
+  ]
+  paths = [
     '''^vendor/(.*?)$''',
     '''^node_modules/(.*?)$''',
   ]
+
   commits = [
     '''5530b41269a24a0a680e78f0281eb28ef7cee591''',
   ]
@@ -251,4 +256,9 @@ title = "gitleaks config"
     '''^sonar-project.properties$''',
     '''^\.gitignore$''',
     '''^yarn.lock$''',
+  ]
+
+  paths = [
+    '''^vendor/(.*?)$''',
+    '''^node_modules/(.*?)$''',
   ]
