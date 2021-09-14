@@ -1,0 +1,43 @@
+version: '3'
+
+tasks:
+  check:
+    desc: Exist Mark and dependences
+    run: once
+    deps:
+      - task: check:docker
+      - task: check:vars
+
+  check:docker:
+    desc: Exist docker
+    run: once
+    preconditions:
+      - sh: command -v docker
+        msg: 'Please Install docker'
+
+  check:vars:
+    desc: Exist vars for mark
+    run: once
+    preconditions:
+      - sh: test -v CONFLUENCE_BASE_URL
+        msg: 'Please add var environment SONAR_HOST_URL'
+      - sh: test -v CONFLUENCE_ACCESS_TOKEN
+        msg: 'Please add var environment CONFLUENCE_ACCESS_TOKEN'
+      - sh: test -v CONFLUENCE_USER
+        msg: 'Please add var environment CONFLUENCE_USER'
+
+  make:
+    desc: run mark.
+    run: once
+    cmds:
+      - >-
+        docker run
+        --rm -i
+        --workdir /usr/src/
+        -v $(pwd)/:/usr/src/
+        -e CONFLUENCE_BASE_URL={{.CONFLUENCE_BASE_URL}}
+        -e CONFLUENCE_ACCESS_TOKEN={{.CONFLUENCE_ACCESS_TOKEN}}
+        -e CONFLUENCE_USER={{.CONFLUENCE_USER}}
+        kovetskiy/mark:latest mark {{.CLI_ARGS}}
+    deps:
+      - task: check
